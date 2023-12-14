@@ -10,7 +10,7 @@ const gameOverSound = new Audio("music/gameover.mp3")
 const moveSound = new Audio("music/move.mp3")
 const gameMusic = new Audio("music/music.mp3")
 let lastPaintTime = 0;
-let speed = 9
+let speed = 7
 let snakeArr = [
     {x:13, y:15}
 ]
@@ -56,12 +56,16 @@ function gameEngine() {
         snakeArr = [{x:13, y:15}]
         gameMusic.play()
         score = 0;
+        speed = 7;
     }
 
     // when food is eaten by snake, increase score and change position of food.
     if(snakeArr[0].x == food.x && snakeArr[0].y == food.y) {
         snakeArr.unshift({x: snakeArr[0].x + move.x, y: snakeArr[0].y + move.y})
-        food = {x:Math.floor(Math.random()*17), y:Math.floor(Math.random()*17)}
+        food = {
+            x: Math.floor(1 + Math.random() * 15), // Adjusted to avoid the leftmost column
+            y: Math.floor(1 + Math.random() * 15), // Adjusted to avoid the top row
+        };
         foodSound.play()
         score++
         document.querySelector("#score").textContent = score
@@ -70,7 +74,7 @@ function gameEngine() {
             localStorage.setItem("hiscore", JSON.stringify(highscoreval))
             hiscoreBox.innerHTML = "High Score: " + highscoreval
         }
-        // speed++
+        speed += 0.15
     }
     
 
